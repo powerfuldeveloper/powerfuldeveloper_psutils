@@ -34,9 +34,9 @@ class Docker(Command):
 
         return rs, p
 
-    def _list_ables(self, what):
+    def _list_ables(self, what, *command):
         assert self.is_docker_available
-        j, _ = self._with_json_result(what)
+        j, _ = self._with_json_result(what, *command)
         return j
 
     def _docker(self, *command):
@@ -50,11 +50,21 @@ class Docker(Command):
         except:
             return False
 
-    def images(self):
-        return self._list_ables('images')
+    def images(self, show_all=False):
+        command = []
 
-    def ps(self):
-        return self._list_ables('ps')
+        if show_all:
+            command.append('-a')
+
+        return self._list_ables('images', *command)
+
+    def ps(self, show_all=False):
+        command = []
+
+        if show_all:
+            command.append('-a')
+
+        return self._list_ables('ps', *command)
 
     def start(self, container):
         assert self.is_docker_available
@@ -75,3 +85,10 @@ class Docker(Command):
     def rmi(self, image_id):
         assert self.is_docker_available
         return self._docker('rmi', image_id)
+
+
+class DockerMixin:
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.docker = Docker()

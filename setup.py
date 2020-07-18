@@ -9,7 +9,7 @@ setuptools.setup(
         "powerfuldeveloper_base==0.0.6",
     ],
     test_suite='nose.collector',
-    version="0.0.3",
+    version="0.0.5",
     author="Hussein Mirzaki",
     author_email="husseinmirzaki@gmail.com",
     description="You can use this to control command line based stuff",
